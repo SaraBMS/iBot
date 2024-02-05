@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emailer</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/emailer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>  
+</head>
+<body>
+    <!-- Start Header -->
+    <header id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="images/logo2.png" alt="logo">
+            </a>
+            <nav>
+                <input type="checkbox" id="toggle-button">
+                <label for="toggle-button" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </label>
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <input type="checkbox" id="content-checkbox">
+                        <label for="content-checkbox">Services</label>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <ul class="dropdown-content">
+                            <li><a href="index.html">Question Answering</a></li>
+                            <li> <a href="sentiment-analysis.html">Sentiment Analysis</a></li>
+                            <li> <a href="text-classification.html">Text Classification</a></li>
+                            <li> <a href="">Emailer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="index.html">Contact</a></li>
+                </ul>
+                <div class="form">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+        <!-- End Header -->
+        <!-- Start Emailer -->
+        <div class="emailer">
+            <div class="box-one">
+            <section class="wrapper">
+                <div class="form signup">
+            <div class="header">Emailer</div>
+            <form action="#">
+                <input type="email" name="" id="Email" placeholder="Enter your Email" required />
+                <input type="password" name="" id="Password" placeholder="Enter Your Password" required  />
+                <div class="mesg">To Fill this Field: Press On Create & Use App Passwords Down Below Then Press On Emailer When You Finish </div>
+                <input type="email" name="" id="Email-to" placeholder="Enter The Receive Email" required />
+            </form>
+            </div>
+       
+        <div class=" form instruction">
+           <div class="header"> Create & Use App Passwords</div> 
+
+           <div class="instructions">
+            <p>
+                <strong>Important:</strong>
+                 To create an app password,
+                 you need 2-Step Verification on your Google Account. 
+                If you use 2-Step-Verification and get a "password incorrect" error when you sign in</p>  
+            <ol>
+                <span>You can try to use an app password:</span>
+                <li>Go to your <a href="http://myaccount.google.com/">Google Account.</a></li>
+                <li>Select Security.</li>
+                <li>Under "Signing in to Google," select 2-Step Verification.</li>
+                <li>At the bottom of the page, select App passwords.</li>
+                <li>Enter a name that helps you remember where you'll use the app password.</li>
+                <li>Select Generate.</li>
+                <li>To enter the app password, follow the instructions on your screen. The app password is the 16-character code that generates on your device.</li>
+                <li>Select Done.</li>
+            </ol>
+        </div>
+        
+            
+          </div>
+        </section>
+    </div>
+    <div class="wrapper result">
+    <div class="box-two">
+        <button id="analysis" onclick="emailer_start()">Analysis</button>
+        <h2>Result</h2>
+        <div class="result" id="result_"></div>
+        
+        <div class="loader-container">
+            <div class="loader" id="waitloader"></div>
+            <br>
+            <br>
+        </div>
+        <button id="notify" ondblclick="send_email()">Send Notification</button>
+    </div>
+</div>
+</div>
+    <script src="js/emailer.js"></script>
+    <script>
+        function emailer_start() {
+    var email = document.getElementById("Email").value;
+    var password = document.getElementById("Password").value;
+    var emailTo = document.getElementById("Email-to").value;
+    var loaderDiv = document.getElementById("waitloader")
+    var resultDiv= document.getElementById("result_")
+    resultDiv.innerHTML = '';
+    
+    loaderDiv.style.display = "block";
+
+    
+  fetch("http://localhost:8000/emailer?email_to_check=" + encodeURIComponent(email)+ '&password=' + encodeURIComponent(password)+'&email_to_notify='+ encodeURIComponent(emailTo))
+  .then(response => response.json())
+    .then(data => {
+        
+
+for (var i = 0; i < data.notifications.length; i++) {
+  var notification = data.notifications[i];
+  var issueElement = document.createElement('p');
+  issueElement.style.color="red";
+  issueElement.textContent = 'Issue: ' + notification.issue;
+  resultDiv.appendChild(issueElement);
+  
+  var fromElement = document.createElement('p');
+  fromElement.textContent = 'From: ' + notification.from;
+  resultDiv.appendChild(fromElement);
+
+  
+  var contentElement = document.createElement('p');
+  contentElement.textContent = 'Content: ' + notification.content;
+  resultDiv.appendChild(contentElement);
+  var brElement = document.createElement('br');
+  resultDiv.appendChild(brElement);
+  resultDiv.style.display = "block";
+  loaderDiv.style.display = "none";
+}
+      
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+function send_email() {
+    alert('Done!');
+    
+  fetch("http://localhost:8000/emailer_report?")
+  .then(response => response.json())
+    .then(data => {
+alert('Done!');        
+})
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+    </script>
+
+     <!-- End Emailer -->   
+</body>
+</html>
+

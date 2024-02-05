@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sentiment Analysis </title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/sentiment.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="website icon" type="png" href="images/sentiment.png">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Start Header -->
+    <header id="header">
+
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="images/logo2.png" alt="logo">
+            </a>
+            <nav>
+                <input type="checkbox" id="toggle-button">
+                <label for="toggle-button" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+               
+            </label>
+
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <input type="checkbox" id="content-checkbox">
+                        <label for="content-checkbox">Services</label>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <ul class="dropdown-content">
+                            <li><a href="QA-chat.html">Question Answering</a></li>
+                            <li> <a href="sentiment-analysis.html">Sentiment Analysis</a></li>
+                            <li> <a href="text-classification.html">Text Classification</a></li>
+                            <li> <a href="">Emailer</a></li>
+
+                        </ul>
+                    </li>
+
+
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="index.html">Contact</a></li>
+                </ul>
+                <div class="form">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </nav>
+
+        </div>
+    </header>
+    <!-- End Header -->
+    <!-- Start Sentiment-Box -->
+    <div class="sentiment">
+
+        <h1>sentiment analysis</h1>
+
+        <div class="wrapper">
+
+
+
+            <span class="animate"></span>
+
+            <!-- Start Sentence Sentiment box -->
+            <div class="form-box login">
+                <h3 class="animation" style="--i:0;"> sentence sentiment analysis</h3>
+                <button class="btn animation" style="--i:1;">start</button>
+
+            </div>
+            <!-- End Sentence Sentiment box -->
+            <!-- Start Data Sentiment box -->
+            <div class="form-box1 login">
+
+                <button class="btn1 animation" style="--i:1;">start</button>
+                <h3 class="animation" style="--i:0;"> data sentiment analysis</h3>
+
+            </div>
+            <!-- End Data Sentiment box -->
+            <!-- Start Sentence Sentiment Analysis box -->
+
+            <div class="form-box2 logout">
+                <label for="text-input" class="lab animation" style="--i:17;">Text</label>
+                <textarea name="text" id="text-input" cols="5" rows="5" class="area animation" style="--i:18;"></textarea>
+                <button class="btn2 animation" onclick="sentimentText()" style="--i:19;">sentiment analysis</button>
+
+
+            </div>
+
+
+            <div class="form-box3 logout">
+                <label for="result-output" class="lab2 animation" style="--i:20;">Sentiment Analysis Result:</label>
+                <div id="result-output" class="output animation" style="--i:21;">
+                </div>
+            </div>
+            <!-- End Sentence Sentiment Analysis box -->
+            <!-- Start Data Sentiment Analysis box -->
+            <div class="service-card">
+                <h2 class="animation">CSV/TXT Data</h2>
+                <div class="form-group ">
+                    <label for="csv-upload" class="animation">Upload CSV/TXT:</label>
+                    <input type="file" id="csv-upload" class="form-control animation">
+                </div>
+                <div class="form-group1">
+                    <label for="csv-table" class="animation"><h3 class="animation">Table:</h3></label>
+                    <table id="csv-table" class="table table-bordered animation"></table>
+                </div>
+         
+
+                <br>
+                <button class="card-button animation" onclick="classifyCSV()" id="classify-csv-button" style="display: none;">Sentiment Analysis</button>
+
+            </div>
+            <div class="result-output-container animation">
+                <h2 class="animation">Sentiment Analysis Result</h2>
+
+
+
+                <div class="form-group2">
+                    <div class="loader" id="waitloader"></div>
+
+                    <br>
+                    <br>
+
+
+                </div>
+                <div id="visuaize_report">
+                    <div id="visuaize" class="visuaize"></div>
+                    <canvas id="pieChart" width="200" height="200"></canvas>
+                    <ul id="legend_" class="legend">
+                        <li id="a0"><span style="background-color: #4CAF50;"></span>Positive:</li>
+                        <li id="a1"><span style="background-color: #F44336;"></span>Negative:</li>
+                        <li id="a2"><span style="background-color: #9E9E9E;"></span>Neutral:</li>
+                    </ul>
+                </div>
+                <br>
+                
+
+                <button class="card-button" onclick="downloadCSVResult()" id="download-csv-button" style="display: none;">Download CSV</button>
+            </div>
+            <!-- End Data Sentiment Analysis box -->
+
+        </div>
+    </div>
+
+
+
+
+    <!-- End Sentiment-Box -->
+    <script src="js/sentiment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+    <script>
+    // Function to analyze sentence sentiment
+function sentimentText() {
+    const text = document.getElementById("text-input").value;
+    fetch(`http://localhost:8000/sentence_sentiment?sentence=${encodeURIComponent(text)}`)
+    .then(response => response.json())
+    .then(data => {
+        // Clear any previous results
+        const resultOutput = document.getElementById("result-output");
+        resultOutput.innerHTML = "";
+
+        // Iterate through the sentiment classes (positive, neutral, negative)
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const probability = data[key];
+
+                // Create a div for the sentiment class
+                const classDiv = document.createElement("div");
+                classDiv.innerText = key;
+                resultOutput.appendChild(classDiv);
+
+                // Calculate and format the probability as a percentage
+                const probabilityText = (probability * 100).toFixed(2);
+
+                // Create an element to display the probability
+                const probabilityElement = document.createElement("span");
+                probabilityElement.innerText = `${probabilityText}%`;
+                probabilityElement.style.float = "right";
+                classDiv.appendChild(probabilityElement);
+
+                // Create a progress bar for the sentiment class
+                const progressBar = document.createElement("progress");
+                progressBar.value = probability;
+                progressBar.max = 1;
+                resultOutput.appendChild(progressBar);
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Error analyzing sentence sentiment:", error);
+    });
+
+}
+document.getElementById('csv-upload').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var csvContent = e.target.result;
+                var lines = csvContent.split('\n');
+                var tableHtml = '';
+
+                for (var i = 0; i < lines.length; i++) {
+                    var cells = lines[i].split(',,,,,,,,,,,,,').map(cell => cell.trim().replace(/,,,,,,,,,/g, ''));
+                    var rowHtml = '<tr>';
+
+                    for (var j = 0; j < cells.length; j++) {
+                        rowHtml += `<td>${cells[j]}</td>`;
+                    }
+
+                    rowHtml += '</tr>';
+                    tableHtml += rowHtml;
+                }
+
+                document.getElementById('csv-table').innerHTML = tableHtml;
+                setCSV();
+               
+                var classificationResult = document.getElementById("classify-csv-button");
+
+                classificationResult.style.display = "block";
+                var element = document.getElementById("download-csv-button");
+
+               
+                element.style.display = "none";
+
+
+            };
+
+            reader.readAsText(file);
+        });
+        
+        
+        async function setCSV() {
+           
+            const fileInput = document.getElementById("csv-upload");
+            const file = fileInput.files[0];
+
+            
+            const formData = new FormData();
+            formData.append("file", file);
+
+        
+        }
+        
+        function classifyCSV() {
+            
+            var element = document.getElementById("waitloader");
+
+
+element.style.display = "block";
+
+            const fileInput = document.getElementById("csv-upload");
+            const file = fileInput.files[0];
+            
+            fetch(`http://localhost:8000/data_sentiment?file_path=${encodeURIComponent(file.name)}`)
+
+            .then(response => response.json())
+    .then(data => {
+        var element = document.getElementById("waitloader");
+        element.style.display = "none";
+        // Clear any previous results
+        var result = data.result;
+                    
+                    var canvas = document.getElementById('pieChart');
+                    var context = canvas.getContext('2d');
+
+                    var positiveCount = result.pos;
+                    var negativeCount = result.neg;
+                    var neutralCount = result.neu;
+                    var total = positiveCount + negativeCount + neutralCount;
+
+                    var positiveAngle = (positiveCount / total) * 2 * Math.PI;
+                    var negativeAngle = (negativeCount / total) * 2 * Math.PI;
+                    var neutralAngle = (neutralCount / total) * 2 * Math.PI;
+
+                    var centerX = canvas.width / 2;
+                    var centerY = canvas.height / 2;
+                    var radius = Math.min(centerX, centerY) - 10;
+
+                    var startAngle = 0;
+
+
+                    context.beginPath();
+                    context.moveTo(centerX, centerY);
+                    context.arc(centerX, centerY, radius, startAngle, startAngle + positiveAngle, false);
+                    context.closePath();
+                    context.fillStyle = '#4CAF50';
+                    context.fill();
+
+
+                    context.beginPath();
+                    context.moveTo(centerX, centerY);
+                    context.arc(centerX, centerY, radius, startAngle + positiveAngle, startAngle + positiveAngle + negativeAngle, false);
+                    context.closePath();
+                    context.fillStyle = '#F44336';
+                    context.fill();
+
+                    context.beginPath();
+                    context.moveTo(centerX, centerY);
+                    context.arc(centerX, centerY, radius, startAngle + positiveAngle + negativeAngle, startAngle + positiveAngle + negativeAngle + neutralAngle, false);
+                    context.closePath();
+                    context.fillStyle = '#9E9E9E';
+                    context.fill();
+
+                    console.log(data.value);
+                    
+                    var element = document.getElementById("download-csv-button");
+
+
+                    element.style.display = "block";
+                    document.getElementById("a0").innerHTML = '<span style="background-color: #4CAF50;"></span>Positive:' + result.pos;
+                    document.getElementById("a1").innerHTML = '<span style="background-color: #F44336;"></span>Negative:' + result.neg;
+                    document.getElementById("a2").innerHTML = '<span style="background-color: #9E9E9E;"></span>Neutral:' + result.neu;
+                    var element = document.getElementById("visuaize_report");
+                    element.style.display = "block";
+
+
+     
+    })
+    .catch(error => {
+        console.error("Error analyzing sentence sentiment:", error);
+    });
+}
+
+
+        function downloadCSVResult() {
+          
+            fetch('http://localhost:8000/save_sentiment_csv')
+                .then(response => response.blob())
+                .then(blob => {
+                 
+                    const url = window.URL.createObjectURL(blob);
+
+                   
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'sentiment_result.csv';
+
+                    document.body.appendChild(link);
+                    link.click();
+
+                 
+                    document.body.removeChild(link);
+                });
+        }
+
+
+</script>
+
+
+</body>
+
+</html>

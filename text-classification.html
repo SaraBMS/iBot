@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Text Classification</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/text.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="website icon" type="webp" href="images/classification.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Start Header -->
+    <header id="header">
+
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="images/logo2.png" alt="logo">
+            </a>
+            <nav>
+                <input type="checkbox" id="toggle-button">
+                <label for="toggle-button" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+               
+            </label>
+
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <input type="checkbox" id="content-checkbox">
+                        <label for="content-checkbox">Services</label>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <ul class="dropdown-content">
+                            <li><a href="index.html">Question Answering</a></li>
+                            <li> <a href="sentiment-analysis.html">Sentiment Analysis</a></li>
+                            <li> <a href="#services">Text Classification</a></li>
+
+                        </ul>
+                    </li>
+
+
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="form">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </nav>
+
+        </div>
+    </header>
+    <!-- End Header -->
+    <!-- Start Classification-Box -->
+    <div class="classification">
+
+        <h1>text classification</h1>
+
+        <div class="wrapper">
+
+
+
+            <span class="animate"></span>
+
+            <!-- Start Sentence classification box -->
+            <div class="form-box login">
+                <h3 class="animation" style="--i:0;"> sentence text classification</h3>
+                <button class="btn animation" style="--i:1;">start</button>
+
+            </div>
+            <!-- End Sentence classification box -->
+            <!-- Start Data classification box -->
+            <div class="form-box1 login">
+
+                <button class="btn1 animation" style="--i:1;">start</button>
+                <h3 class="animation" style="--i:0;"> data text classification</h3>
+
+            </div>
+            <!-- End Data classification box -->
+            <!-- Start Sentence Text Classification box -->
+
+            <div class="form-box2 logout">
+                <label for="text-input" class="lab animation" style="--i:17;">Text</label>
+                <textarea name="text" id="text-input" cols="5" rows="5" class="area animation" style="--i:18;"></textarea>
+                <label for="categories-input" class="lab animation" style="--i:17;">Labels:</label>
+                <textarea name="text" id="categories-input" cols="3" rows="2" class="area1 animation" style="--i:18;"></textarea>
+                <button class="btn2 animation" style="--i:19;" onclick="classifyText()" id="classify-button">Classify Text</button>
+
+
+            </div>
+
+
+            <div class="form-box3 logout">
+                <label for="result-output" class="lab2 animation" style="--i:20;">Text Classification Result:</label>
+                <div id="result-output" class="output animation" style="--i:21;">
+                </div>
+            </div>
+            <!-- End Sentence Text Classification box -->
+            <!-- Start Data Text Classification box -->
+            <div class="service-card">
+                <h2 class="animation">CSV/TXT Data</h2>
+                <div class="form-group ">
+                    <label for="csv-upload" class="animation">Upload CSV/TXT:</label>
+                    <input type="file" id="csv-upload" class="form-control animation">
+             
+                </div>
+                <div class="form-group1">
+                    <label for="csv-table" class="animation"><h3 class="animation">Table:</h3></label>
+                    <table id="csv-table" class="table table-bordered animation"></table>
+                    
+                    <label for="categories-input-csv" class="lab animation" style="--i:17;">Labels:</label>
+                    <textarea name="text" id="categories-input-csv" cols="3" rows="2" class="area1 animation" style="--i:18;"></textarea>
+               
+                </div>
+
+                <br>
+                <button class="card-button animation" onclick="classifyCSV()" id="classify-csv-button" style="display: none;">text classification</button>
+
+            </div>
+            <div class="result-output-container animation">
+                <h2 class="animation">Text Classification Result:</h2>
+                <div class="form-group2">
+                    <div class="loader" id="waitloader"></div>
+                    <br>
+                    <br>
+                </div>
+                <div id="visuaize_report">
+                    <div id="visuaize" class="visuaize"></div>
+                    <canvas id="pieChart" width="200" height="200"></canvas>
+                    <ul id="legend_" class="legend">
+                        <li id="a0"><span style="background-color: #4CAF50;"></span>Positive:</li>
+                        <li id="a1"><span style="background-color: #F44336;"></span>Negative:</li>
+                        <li id="a2"><span style="background-color: #9E9E9E;"></span>Neutral:</li>
+                    </ul>
+                </div>
+                <br>
+
+                <button class="card-button" onclick="downloadCSVResult()" id="download-csv-button" style="display: none;">Download CSV</button>
+            </div>
+            <!-- End DataText Classification box -->
+
+        </div>
+    </div>
+
+
+
+
+    <!-- End Classification-Box -->
+    <script src="js/text-classify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+    <script>
+    
+
+        function classifyText() {
+            
+            var text = document.getElementById("text-input").value;
+            var labels = document.getElementById("categories-input").value;
+    
+            
+            fetch('http://localhost:8000/sentence_textClassification?sentence=' + encodeURIComponent(text) + '&labels=' + encodeURIComponent(labels))
+                .then(response => response.json())
+                .then(data => {
+                  
+                    var result = data;
+                    var outputDiv = document.getElementById("result-output");
+                    outputDiv.innerHTML = "";
+    
+                    for (var key in result) {
+                        if (result.hasOwnProperty(key)) {
+                            var probability = result[key];
+    
+                          
+                            var classDiv = document.createElement("div");
+                            classDiv.innerText = key;
+                            outputDiv.appendChild(classDiv);
+
+                         
+                            var probabilityText = (probability * 100).toFixed(2);
+
+                           
+                            var probabilityElement = document.createElement("span");
+                            probabilityElement.innerText = probabilityText + "%";
+                            probabilityElement.style.float = "right";
+                            classDiv.appendChild(probabilityElement);
+
+                           
+                            var progressBar = document.createElement("progress");
+                            progressBar.id = key;
+                            progressBar.value = probability;
+                            progressBar.max = 1;
+                            outputDiv.appendChild(progressBar);
+                        }
+        }
+    })
+    .catch(error => {
+        console.error("Error analyzing text classification:", error);
+    });
+
+}
+
+       
+   
+  document.getElementById('csv-upload').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var csvContent = e.target.result;
+            var lines = csvContent.split('\n');
+            var tableHtml = '';
+
+            for (var i = 0; i < lines.length; i++) {
+                var cells = lines[i].split(',,,,,,,,,,,,,').map(cell => cell.trim().replace(/,,,,,,,,,/g, ''));
+                var rowHtml = '<tr>';
+
+                for (var j = 0; j < cells.length; j++) {
+                    rowHtml += `<td>${cells[j]}</td>`;
+                }
+
+                rowHtml += '</tr>';
+                tableHtml += rowHtml;
+            }
+
+            document.getElementById('csv-table').innerHTML = tableHtml;
+            setCSV();
+           
+            var classificationResult = document.getElementById("classify-csv-button");
+
+           
+            classificationResult.style.display = "block";
+            var element = document.getElementById("download-csv-button");
+
+          
+            element.style.display = "none";
+
+            
+        };
+
+        reader.readAsText(file);
+    });
+    async function setCSV() {
+   
+    const fileInput = document.getElementById("csv-upload");
+    const file = fileInput.files[0];
+
+   
+    const formData = new FormData();
+    formData.append("file", file);
+
+   
+    
+    const data = await response.json();
+    console.log(data.message); 
+   
+}
+function classifyCSV() {
+    var element = document.getElementById("waitloader");
+
+       
+        element.style.display = "block";
+       
+
+        const fileInput = document.getElementById("csv-upload");
+        const file = fileInput.files[0];
+
+  var categoriesInput = document.getElementById("categories-input-csv");
+  var newLabels = categoriesInput.value;
+
+  fetch("http://localhost:8000/data_textClassification?file_path=" + encodeURIComponent(file.name)+ '&labels=' + encodeURIComponent(newLabels))
+  .then(response => response.json())
+    .then(data => {
+        var element = document.getElementById("waitloader");
+
+        element.style.display = "none";
+
+        // Clear any previous results
+        var result = data;
+        
+var element = document.getElementById("download-csv-button");
+
+
+element.style.display = "block";
+
+      
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+function downloadCSVResult() {
+
+  fetch('http://localhost:8000/save_labeled_csv')
+    .then(response => response.blob())
+    .then(blob => {
+     
+      const url = window.URL.createObjectURL(blob);
+      
+     
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'labeled_data.csv';
+      
+  
+      document.body.appendChild(link);
+      link.click();
+      
+      
+      document.body.removeChild(link);
+    });
+}
+
+
+    </script>
+
+</body>
+
+</html>

@@ -64,7 +64,7 @@
         <h2 > chatbot </h2>
         <div class="chatbox"> 
           
-            <div id="messageContainer"> <p class="iBotMessage message">Hello and welcome!I am iBot 😊</p>
+            <div id="messageContainer"> <p class="iBotMessage message">Hello and welcome! 😊...How can I assist you today?</p>
               </div>
     
        
@@ -93,6 +93,7 @@
             </div>
        
     </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
@@ -172,11 +173,11 @@ userInputElement.addEventListener('keydown', function(event) {
             messageContainer.appendChild(loaderElement);
             messageContainer.scrollTop = messageContainer.scrollHeight;
 
-            fetch("http://localhost:8000/chat?message=" + encodeURIComponent(message))
+            fetch("http://localhost:8000/next-ai?query=" + encodeURIComponent(message))
                 .then(response => response.json())
                 .then(data => {
-                    var response = data.response;
-                    
+                    var response = data.response.response;
+
                     messageContainer.removeChild(loaderElement);
 
                     appendMessage( response, "iBot");
@@ -185,44 +186,39 @@ userInputElement.addEventListener('keydown', function(event) {
                     console.log(error);
                 });
         }
+        function postDocument(newText) {
+    const new_text = newText;
+
+fetch('http://localhost:8000/set_document?new_text=' + new_text, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
         function handleFileInputChange() {
     var fileInput = document.getElementById("fileInput");
     var file = fileInput.files[0];
-
+    
     if (file) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            alert(file.name);
-            // تمرير اسم الملف كمعلمة في الطلب إلى النهاية
-            postDocument(file.name);
+            var fileContent = e.target.result;
+            showChatInterface(fileContent);
+            postDocument(fileContent);
         };
         reader.readAsText(file);
     }
 }
 
-function postDocument(fileName) {
-    // تمرير اسم الملف كمعلمة في الطلب
-    fetch('http://localhost:8000/set_bot_data?file_path=' + encodeURIComponent(fileName), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        showChatInterface();
-        console.log(data);
-        
-        // احصل على العنصر الذي تريد عرضه باستخدام الهوية "chat"
-        var chatElement = document.getElementById("chat");
-
-        // غيّر خاصية العرض لتجعل العنصر مرئيًا
-        chatElement.style.display = "block";
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
 
 function showChatInterface() {
     var uploadContaine = document.getElementById("uploadContainer");
